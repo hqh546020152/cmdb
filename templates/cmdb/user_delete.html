@@ -13,7 +13,7 @@
 
 {#        <h3>删除数据界面，已开发完，未接入</h3>#}
     </form>
-    <form action="/cmdb/user_delete/" method="POST">{% csrf_token %}
+    <form action="/cmdb/user_add_delete/" method="POST">{% csrf_token %}
             <label>用户名：</label> <input type="text" name="username"/><br /><br />
             <input type="submit" value="确定"/>
     </form>

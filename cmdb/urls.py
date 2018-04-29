@@ -40,5 +40,6 @@ urlpatterns = [
     url(r'^cmdb/user_add_get/', views.user_add_get, name='user_add_get'),
     url(r'^cmdb/user_add_alter/', views.user_add_alter, name='user_add_alter'),
     url(r'^cmdb/user_delete/', views.user_delete, name='user_delete'),
+    url(r'^cmdb/user_add_delete/', views.user_add_delete, name='user_add_delete'),
 
 ]

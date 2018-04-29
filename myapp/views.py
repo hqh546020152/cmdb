@@ -248,5 +248,21 @@ def user_delete(request):
     except KeyError:
         return render(request, "login/login.html")
 
+def user_add_delete(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        tty = models.DUser.objects.filter(user=(username))
+        try:
+            if tty[0].user :
+                models.DUser.objects.filter(user=(username)).delete()
+                context = {'messages': '删除成功！', 'messages_tagname': username}
+                return render(request, "cmdb/user_delete.html", context)
+            # 用户不存在时会报错
+        except IndexError:
+            context = {'messages': '该用户不存在，删除！', 'messages_tagname': username}
+            return render(request, "cmdb/user_delete.html",context)
+
+
+
 
 
