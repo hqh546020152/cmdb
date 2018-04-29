@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+</head>
+<body>
+{#    {% if request.session.username %}#}
+{#        <h4 style='font-family:楷体;'>{{ request.session.username }} </h4>#}
+{#    {% else %}#}
+{#        <h3 style='font-family:楷体;'>请重新登陆</h3>#}
+{#    {% endif %}#}
+
+
+    <form action="/cmdb/index_return" method="GET">{% csrf_token %}
+        <input type="submit" value="返回"/><br><br>
+        <a href="/cmdb/user_add/">添加用户</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/cmdb/user_alter/">修改密码</a>
+    </form><br>
+    <table>
+            <thead>
+                <tr>
+                    <th>用户</th>
+                    <th>密码</th>
+                    <th>允许登录</th>
+                    <th>权限</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>test</td>
+                    <td>e10adc3949ba59abbe56e057f20f883e</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td>python</td>
+                    <td>4297f44b13955235245b2497399d7a93</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+</head>
+<body>
+    <h1>欢迎登陆CMDB</h1>
+    <!--验证session是否存在，调试使用-->
+{#    {% if request.session.username %}#}
+{#        <h4 style='font-family:楷体;'>{{ welcome}} {{ request.session.username }} </h4>#}
+{#    {% else %}#}
+{#        <h3 style='font-family:楷体;'>请重新登陆</h3>#}
+{#    {% endif %}#}
+
+    <form action="/login/logout/" method="GET">
+        <input type="submit" value="注销"/><br><br>
+    </form>
+    <form>
+        <input type="text"/><input type="button" value="搜索"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/cmdb/data_add/">添加资产信息</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <a href="/cmdb/user/">用户管理</a><br>
+    </form><br>
+    <table>
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>CPU</th>
+                    <th>内存</th>
+                    <th>IP</th>
+                    <th>系统版本</th>
+                    <th>内核版本</th>
+                    <th>标签</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if messages %}
+                    {% for message in messages %}
+                    <tr>
+{#                        <form action="/cmdb/data_look/" method="GET">#}
+                            <td>{{ message.tagname }}&nbsp;&nbsp;</td>
+                            <td>{{ message.cpu }}&nbsp;&nbsp;</td>
+                            <td>{{ message.memory }}&nbsp;&nbsp;</td>
+                            <td>{{ message.ip }}&nbsp;&nbsp;</td>
+                            <td>{{ message.systemd_version }}&nbsp;&nbsp;</td>
+                            <td>{{ message.kernel_version }}&nbsp;&nbsp;</td>
+                            <td>{{ message.tag }}&nbsp;&nbsp;</td>
+                            <td>{{ message.create_time }}&nbsp;&nbsp;</td>
+{#                            <td><input type="submit" value="查看"/>&nbsp;&nbsp;<input type="submit" value="修改"/>&nbsp;&nbsp;<input type="submit" value="删除"/></td>#}
+{#                        </form>#}
+{#                        <td><a href="/cmdb/data_look/">查看详情</a>&nbsp;&nbsp;<a href="/cmdb/data_alter/">修改</a>&nbsp;&nbsp;<a href="/cmdb/data_delete/">删除</a></td>#}
+{#                        <td><form action="/cmdb/data_look/" method="GET"><input type="submit" value="查看"/></form><form action="/cmdb/data_alter/" method="GET"><input type="submit" value="修改"/></form><form action="/cmdb/data_delete/" method="GET"><input type="submit" value="删除"/></form></td>#}
+                        <td><form action="/cmdb/data_look/" method="GET"><input type="submit" value="查看"/></form><form action="/cmdb/data_alter/" method="GET"><input type="submit" value="修改"/></form><form action="/cmdb/data_delete/" method="GET"><input type="submit" value="删除"/></form></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8">无数据</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table><br><br><br><br>
+
+    <!-- 提示框-->
+    <button onclick="displayDate()">提示框</button>
+    <script>
+        function displayDate()
+        {
+            alert('Hello');
+        }
+    </script>
+
+</body>
+</html>

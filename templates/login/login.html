@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>重新登录</title>
+</head>
+<body>
+    <h1>欢迎使用CMDB</h1>
+        {% if request.session.username %}
+            <h4 style='font-family:楷体;'>{{ welcome}} {{ request.session.username }} </h4>
+        {% elif logout_messages %}
+            <h3 style='font-family:楷体;'>请重新登陆</h3>
+        {% else %}
+            <h3 style='font-family:楷体;'>会话已过期</h3>
+        {% endif %}
+
+    {% if error_id == 1 %}
+        <div style="color: red">{{ error }}</div>
+    {% endif %}
+    {% if error_id == 2 %}
+        <div style="color: red">{{ error }}</div>
+    {% endif %}
+        <form action="/cmdb/index/" method="POST">{% csrf_token %}
+            <label>用户名：</label> <input type="text" name="username"/><br /><br />
+            <label>  密码：</label> <input type="password" name="passwd"/><br /><br />
+            <input type="submit" value="登陆"/>
+        </form>
+</body>
+</html>

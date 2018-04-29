@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据添加</title>
+</head>
+<body>
+    <form action="/cmdb/index_return/" method="GET">{% csrf_token %}
+        <input type="submit" value="返回"/><br><br><br><br>
+    </form>
+
+    {% if add_messages %}
+            <div style="color: red">{{ add_messages }}</div>
+    {% endif %}
+
+    <form action="/cmdb/add_message/" method="POST">{% csrf_token %}
+            <label>名称：</label> <input type="text" name="tagname"/><br /><br />
+            <label>CPU：</label> <input type="text" name="cpu"/><br /><br />
+            <label>内存：</label> <input type="text" name="memory"/><br /><br />
+            <label>IP：</label> <input type="text" name="ip"/><br /><br />
+            <label>系统版本：</label> <input type="text" name="systemd_version"/><br /><br />
+            <label>内核版本：</label> <input type="text" name="kernel_version"/><br /><br />
+            <label>标签：</label> <input type="text" name="tag"/><br /><br />
+            <input type="submit" value="添加"/>
+    </form>
+
+</body>
+</html>
