@@ -7,9 +7,9 @@
 <body>
     <form action="/cmdb/user/" method="GET">{% csrf_token %}
         <input type="submit" value="返回"/><br><br><br>
-{#        {% if messages %}#}
-{#            <div style="color: red">{{ messages_tagname }}&nbsp;{{ messages }}</div>#}
-{#        {% endif %}#}
+        {% if messages %}
+            <div style="color: red">{{ messages_tagname }}&nbsp;{{ messages }}</div>
+        {% endif %}
 
 {#        <h3>删除数据界面，已开发完，未接入</h3>#}
     </form>

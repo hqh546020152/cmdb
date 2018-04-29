@@ -4,6 +4,7 @@ from elasticsearch import Elasticsearch
 import json
 import time
 import datetime
+from myapp import models
 
 
 es = Elasticsearch(['hqh-study-python.com:9298'])
@@ -113,5 +114,6 @@ class Es():
 #
 # print(t.get('create_time'))
 
+#
 
 

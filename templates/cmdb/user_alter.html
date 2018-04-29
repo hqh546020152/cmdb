@@ -6,12 +6,19 @@
 </head>
 <body>
     <form action="/cmdb/user/" method="GET">{% csrf_token %}
-        <input type="submit" value="返回"/><br><br>
-{#        {% if messages %}#}
-{#            <div style="color: red">{{ messages_tagname }}&nbsp;{{ messages }}</div>#}
-{#        {% endif %}#}
+        <input type="submit" value="返回"/><br><br><br>
+        {% if messages %}
+            <div style="color: red">{{ messages_tagname }}&nbsp;{{ messages }}</div>
+        {% endif %}
 
-        <h3>删除数据界面，已开发完，未接入</h3>
+{#        <h3>删除数据界面，已开发完，未接入</h3>#}
+    </form>
+    <form action="/cmdb/user_add_alter/" method="POST">{% csrf_token %}
+            <label>&nbsp;&nbsp;&nbsp;用户名：</label> <input type="text" name="username"/><br /><br />
+            <label>&nbsp;&nbsp;&nbsp;原密码：</label> <input type="password" name="passwd"/><br /><br />
+            <label>修改密码：</label> <input type="password" name="passwd1"/><br /><br />
+            <label>确认密码：</label> <input type="password" name="passwd2"/><br /><br />
+            <input type="submit" value="修改"/>
     </form>
 
 </body>

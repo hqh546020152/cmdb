@@ -191,13 +191,62 @@ def user_add(request):
 
 def user_add_get(request):
     username = request.POST.get('username')
-    passwd = request.POST.get('passwd')
-    x = models.Change_md5()
-    x.setName(passwd)
-    passwd = x.data
 
-    status = request.POST.get('status')
-    permissions = request.POST.get('permissions')
-    print(username,passwd,status,permissions)
-    return render(request, "cmdb/user_add.html")
+    #判断用户是否已存在
+    tty = models.DUser.objects.filter(user=(username))
+    try:
+        if tty[0].user == username:
+            context = {'messages': '该用户已存在，请重新输入！', 'messages_tagname': username}
+            return render(request, "cmdb/user_add.html", context)
+        #用户不存在时会报错
+    except IndexError:
+        #密码MD5转换
+        passwd = request.POST.get('passwd')
+        x = models.Change_md5()
+        x.setName(passwd)
+        passwd = x.data
+
+        status = request.POST.get('status')
+        permissions = request.POST.get('permissions')
+
+        print(username,passwd,status,permissions)
+        #添加数据
+        models.DUser.objects.create(id='3',user=(username), passwd=(passwd), valid=(status), permission=(permissions))
+        obj = models.DUser(id='3', user=(username), passwd=(passwd), valid=(status), permission=(permissions))
+        obj.save()
+
+
+        context = {'messages': '添加成功！', 'messages_tagname': username}
+        return render(request, "cmdb/user_add.html",context)
+
+
+def user_add_alter(request):
+    username = request.POST.get('username')
+    passwd = request.POST.get('passwd')
+    passwd1 = request.POST.get('passwd1')
+    passwd2 = request.POST.get('passwd2')
+    if passwd1 != passwd2:
+        context = {'messages': '输入两次密码不一致，请重新输入！'}
+        return render(request, "cmdb/user_alter.html",context)
+    elif passwd1 == passwd:
+        context = {'messages': '修改密码与原密码一直，修改失败！'}
+        return render(request, "cmdb/user_alter.html", context)
+    else:
+        x = models.Change_md5()
+        x.setName(passwd1)
+        passwd = x.data
+        models.DUser.objects.filter(user=(username)).update(passwd=(passwd))
+        context = {'messages': '修改成功！'}
+        return render(request, "cmdb/user_alter.html", context)
+
+def user_delete(request):
+    try:
+        if request.session['username']:
+            return render(request, "cmdb/user_delete.html")
+        else:
+            return render(request, "login/login.html")
+    except KeyError:
+        return render(request, "login/login.html")
+
+
 

@@ -13,7 +13,7 @@ class Change_md5():
         hl.update(data.encode(encoding='utf-8'))
         self.data = hl.hexdigest()# This is an auto-generated Django model module.
 
-#数据库-用户表操作
+#数据库-用户表操作，参考：https://www.cnblogs.com/fortunate/p/7109345.html
 class DUser(models.Model):
     id = models.IntegerField(primary_key=True)
     user = models.CharField(max_length=16)
