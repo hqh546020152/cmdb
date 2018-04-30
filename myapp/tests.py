@@ -4,7 +4,6 @@ from elasticsearch import Elasticsearch
 import json
 import time
 import datetime
-from myapp import models
 
 
 es = Elasticsearch(['hqh-study-python.com:9298'])
@@ -25,20 +24,51 @@ for hit in res['hits']['hits']:
     sumshu.append(ptk)
     # print(hit['_source'])
 
-print(sumshu)
-print(type(sumshu))
+# print(sumshu)
+# print(type(sumshu))
 a = sumshu[0].get('tag')
+
+
+test =  "docker"
+test1 = [["tagname" , "tag" , "memory", "systemd_version" , "kernel_version" , "cpu" , "ip" , "create_time" ] , "tag" , "memory", "systemd_version" , "kernel_version" , "cpu" , "ip" , "create_time" ]
+test2 = ["tagname"]
+body = {
+    "query":{
+        "multi_match":{
+            "query":test ,
+            "fields": test2
+        },
+
+    }
+}
+
+
+# message = {'cpu': cpu, 'tagname': tagname, 'memory': memory, 'ip': ip, 'systemd_version': systemd_version,
+#            'kernel_version': kernel_version, 'tag': tag, 'create_time': create_time, 'status': 0}
+
+print(body)
+res7 = es.search(index="my-index",doc_type="test",body=body)
+for hit in res7['hits']['hits']:
+    ptk = hit['_source']
+    # print(ptk)
+    sumshu.append(ptk)
+    # print(hit['_source'])
+
+print(sumshu)
+
 # print(a)
 
 #查询指定数据 => 查看详情单条数据
 txt = 'logic1'
-res3 = es.search(index='my-index', doc_type='test', body={"query":{'term': {'tagname': txt}}})
-res6 = res3['hits']['hits']
-if res6:
-    print('True')
-else:
-    print('False')
-res4 = json.dumps(res3)
+# res3 = es.search(index='my-index', doc_type='test', body={"query":{'term': {'tagname': txt}}})
+# res6 = res3['hits']['hits']
+# if res6:
+#     print('True')
+# else:
+#     print('False')
+# res4 = json.dumps(res3)
+
+
 # print(res4)
 # print(res3['hits']['hits'])
 # print(res3['hits']['hits'][0]['_source'].get('memory'))
@@ -47,16 +77,16 @@ res4 = json.dumps(res3)
 # es.delete(index='my-index', doc_type='test',id = 1)
 # res2 = es.search(index='my-index',doc_type='test', body={"query":{"match_all":{}}})
 
-#删除指定数据
-txt1 = 'test'
-qeury = {'query': {'match': {'tagname': txt1 }}}
-es.delete_by_query(index='my-index', doc_type='test',body = qeury)
-
-#闪
-index=None
-type=None
-body=None
-print(es.search(index=index, doc_type=type, body=body))
+# #删除指定数据
+# txt1 = 'test'
+# qeury = {'query': {'match': {'tagname': txt1 }}}
+# es.delete_by_query(index='my-index', doc_type='test',body = qeury)
+#
+# #闪
+# index=None
+# type=None
+# body=None
+# print(es.search(index=index, doc_type=type, body=body))
 
 
 
@@ -117,3 +147,7 @@ class Es():
 #
 
 
+
+
+res_4 = es.search(index="my-index", doc_type='test', q="docker mysql", size=100)
+print(res_4["hits"]["hits"])

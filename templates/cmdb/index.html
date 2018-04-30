@@ -16,8 +16,8 @@
     <form action="/login/logout/" method="GET">
         <input type="submit" value="注销"/><br><br>
     </form>
-    <form>
-        <input type="text"/><input type="button" value="搜索"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <form action="/cmdb/data_search/"  method="GET">
+        <input type="text" name="search" /><input type="submit" value="搜索"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="/cmdb/data_add/">添加资产信息</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <a href="/cmdb/user/">用户管理</a><br>
     </form><br>
     <table>

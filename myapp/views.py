@@ -262,6 +262,18 @@ def user_add_delete(request):
             context = {'messages': '该用户不存在，删除！', 'messages_tagname': username}
             return render(request, "cmdb/user_delete.html",context)
 
+def data_search(request):
+    search = request.GET.get('search','')
+    if search :
+        x = models.Es()
+        y = x.search_all(index='my-index', type='test', reque = search )
+        context = {'messages': x.data_despose( data=y ) }
+        return render(request, "cmdb/index.html", context)
+    else:
+        x = models.Es()
+        # 传输給html的必须是一个字典
+        context = {'messages': x.Get_data_all()}
+        return render(request, "cmdb/index.html", context)
 
 
 

@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^cmdb/data_alter/', views.data_alter, name='data_alter'),
     url(r'^cmdb/data_delete/', views.data_delete, name='data_delete'),
     url(r'^cmdb/add_message/', views.add_message, name='add_message'),
+    url(r'^cmdb/data_search/', views.data_search, name='data_search'),
 
     url(r'^cmdb/user/', views.user_manage, name='user_manage'),
     url(r'^cmdb/user_add/', views.user_add, name='user_add'),
@@ -41,5 +42,7 @@ urlpatterns = [
     url(r'^cmdb/user_add_alter/', views.user_add_alter, name='user_add_alter'),
     url(r'^cmdb/user_delete/', views.user_delete, name='user_delete'),
     url(r'^cmdb/user_add_delete/', views.user_add_delete, name='user_add_delete'),
+
+
 
 ]
