@@ -38,7 +38,6 @@
                 {% if messages %}
                     {% for message in messages %}
                     <tr>
-{#                        <form action="/cmdb/data_look/" method="GET">#}
                             <td>{{ message.tagname }}&nbsp;&nbsp;</td>
                             <td>{{ message.cpu }}&nbsp;&nbsp;</td>
                             <td>{{ message.memory }}&nbsp;&nbsp;</td>
@@ -47,10 +46,6 @@
                             <td>{{ message.kernel_version }}&nbsp;&nbsp;</td>
                             <td>{{ message.tag }}&nbsp;&nbsp;</td>
                             <td>{{ message.create_time }}&nbsp;&nbsp;</td>
-{#                            <td><input type="submit" value="查看"/>&nbsp;&nbsp;<input type="submit" value="修改"/>&nbsp;&nbsp;<input type="submit" value="删除"/></td>#}
-{#                        </form>#}
-{#                        <td><a href="/cmdb/data_look/">查看详情</a>&nbsp;&nbsp;<a href="/cmdb/data_alter/">修改</a>&nbsp;&nbsp;<a href="/cmdb/data_delete/">删除</a></td>#}
-{#                        <td><form action="/cmdb/data_look/" method="GET"><input type="submit" value="查看"/></form><form action="/cmdb/data_alter/" method="GET"><input type="submit" value="修改"/></form><form action="/cmdb/data_delete/" method="GET"><input type="submit" value="删除"/></form></td>#}
                         <td><form action="/cmdb/data_look/" method="GET"><input type="submit" value="查看"/></form><form action="/cmdb/data_alter/" method="GET"><input type="submit" value="修改"/></form><form action="/cmdb/data_delete/" method="GET"><input type="submit" value="删除"/></form></td>
                     </tr>
                     {% endfor %}

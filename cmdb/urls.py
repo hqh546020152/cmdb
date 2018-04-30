@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^login/index/', views.login, name='login'),
     url(r'^login/logout/', views.logout, name='logout'),
     url(r'^login/login/', views.session_check, name='login_check'),
+    
     url(r'^cmdb/index/', views.login_auth, name='login_auth'),
     url(r'^cmdb/index_return/', views.index_return, name='index_return'),
     url(r'^cmdb/data_add/', views.data_add, name='data_add'),
