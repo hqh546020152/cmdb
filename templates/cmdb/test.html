@@ -4,7 +4,107 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+    <body>
+        <form action="/cmdb/index_return/" method="GET">{% csrf_token %}
+        <input type="submit" value="返回"/><br><br>
+        {{ messages }}
+    </form>
+        <!--div块标签-->
+        <div>这是一个div块， 通常用于布局</div>
 
-</body>
+        <!--特殊字符 -->
+        &nbsp; <!-- 空格 -->
+        &lt; <!-- 左尖括号<或小于号 -->
+        &gt; <!-- 右尖括号>或大于号 -->
+        &copy; <!-- 版权符号© -->
+        &reg; <!-- 已注册符号® -->
+        &amp; <!-- 表示and符号& -->
+        &#151; <!-- 长破折号 -->
+
+        <!--标题标签 -->
+        <h1>heading</h1>
+        <h2>heading</h2>
+        <h3>heading</h3>
+        <h4>heading</h4>
+        <h5>heading</h5>
+        <h6>heading</h6>
+
+        <!--文本节标签-->
+        <span>这是一个文本节</span>
+
+        <!-- 强调标签 -->
+         <strong>加强语气</strong>
+
+        <!--图片标签-->
+        <!--<img src="./bikaqin.jpg"/> -->
+        <!---->
+         <a href="http://www.baidu.com">超链接， 打开新窗口</a><br>
+
+        <!--文本域-->
+        <textarea>文本内容：abcdefghijklnmopqrstuvwxyz</textarea>
+
+        <!--无序列表标签-->
+        <ul>
+            <li>第一个</li>
+            <li>第二个</li>
+            <li>第三个</li>
+        </ul>
+
+        <!--有序列表标签-->
+        <ol>
+            <li>第一个</li>
+            <li>第二个</li>
+            <li>第三个</li>
+        </ol>
+
+        <!--自定义列表-->
+        <dl>
+            <dt>自定义列表项</dt>
+            <dd>自定义列表项的定义</dd>
+        </dl>
+
+        <!--table表格-->
+        <table>
+            <tr>
+                <td>娱乐项目</td>
+                <td>项目支出</td>
+            </tr>
+            <tr>
+                <td>聚餐</td>
+                <td>200元</td>
+            </tr>
+        </table>
+
+        <!--form表单-->
+        <form>
+            表单输入控件
+        </form>
+
+        <!--表单输入控件-->
+        <form>
+            <input type="text"><br>     <!-- 文本 -->
+            <input type="password"><br> <!-- 密码 -->
+            <input type="radio"><br>    <!-- 单选框 -->
+            <input type="button" value="点击"><br>    <!-- 普通按钮 -->
+            <input type="checkbox"><br> <!-- 复选框 -->
+            <input type="submit"><br>   <!-- 提交按钮 -->
+            <input type="reset"><br>    <!-- 重置按钮 -->
+            <input type="file"><br>     <!-- 文件上传 -->
+            <!--button 就是一个普通按钮， 没有任何功能。 而 submit 在用户点击后会自动提交 form 表单。-->
+        </form>
+
+        <!--下拉列表-->
+        <select>
+            <option>川菜</option>
+            <option>粤菜</option>
+            <option>北方菜</option>
+            <option>上海菜</option>
+            <option>西餐</option>
+            <option>泰国菜</option>
+        </select><br>
+
+        <!--内联框架-->
+        <iframe src="需要显示的网页链接地址"></iframe><br>
+
+    </body>
 </html>

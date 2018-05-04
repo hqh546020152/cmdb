@@ -278,3 +278,11 @@ def data_search(request):
 
 
 
+def test(request):
+    try:
+        if request.session['username']:
+            return render(request, "cmdb/test.html")
+        else:
+            return render(request, "login/login.html")
+    except KeyError:
+        return render(request, "login/login.html")
