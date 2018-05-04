@@ -286,3 +286,20 @@ def test(request):
             return render(request, "login/login.html")
     except KeyError:
         return render(request, "login/login.html")
+
+
+def ssh(request):
+
+    hostname = 'hqh-study-python.com'
+    port = 2222
+    username = 'admin'
+    password = '3XtgCvWliZJ7WdKJ1QrZ'
+    execmd = "cat /etc/redhat-release"
+
+    pty = models.SSH_passwd()
+    ttt = pty.sshclient_execmd(hostname = hostname,port = port , username = username , password = password , execmd = execmd )
+    print(ttt)
+    x = models.Es()
+    # 传输給html的必须是一个字典
+    context = {'messages': x.Get_data_all()}
+    return render(request, "cmdb/index.html", context)

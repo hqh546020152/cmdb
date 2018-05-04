@@ -114,4 +114,21 @@ class Es():
 #         pass
 
 
+class SSH_passwd():
+    def sshclient_execmd(self, hostname , port , username ,password, execmd ):
+        paramiko.util.log_to_file("paramiko.log") #打印执行日志
+        s = paramiko.SSHClient()      #调用paramiko模块下的SSHClient()
+        s.load_system_host_keys()     #加载本地的known_hosts文件，该文件是纪录连到对方时，对方给的 host key。每次连线时都会检查目前对方给>的 host key 与纪录的 host key 是否相同，可以简单验证连结是否又被诈骗等相关事宜。
+        s.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        s.connect( hostname = hostname, port=port, username=username, password=password)
+        stdin, stdout, stderr = s.exec_command (execmd)
+        stdin.write("Y") # Generally speaking, the first connection, need a simple interaction.
+        A = stdout.read()   #执行成功，将返回执行结果。执行失败则为空
+        B = stderr.read()   #执行失败，将返回错误信息。执行成功则为空
+        s.close()     #关闭连接
+        if A :
+            return A
+        else:
+            return B
+
 
