@@ -49,9 +49,19 @@ urlpatterns = [
     # url(r'^test/$', views.GetMessageView.as_view(), name='GetMessageView'),
 
 
-    url(r'^test/$', api.GetMessageView.as_view(), name='GetMessageView'),
-    url(r'^login/$',api.GetLoginView.as_view(), name='GetLoginViewView'),
-    url(r'^cmdb/select/$',api.GetSelectView.as_view(), name='GetSelectView'),
+    url(r'^api/test/$', api.GetTestView.as_view(), name='GetMessageView'),
+    url(r'^api/login/$',api.GetLoginView.as_view(), name='GetLoginViewView'),
+    #url(r'^api/logout/$',api.GetLogoutView.as_view(), name='GetLogoutView'),
+    url(r'^api/es-select/$',api.PostEsSelectView.as_view(), name='PostEsSelectView'),
+    url(r'^api/es-search/$',api.GetEsSearchView.as_view(), name='GetEsSearchView'),
+    url(r'^api/es-add/$',api.PostEsAddView.as_view(), name='PostEsAddView'),
+    url(r'^api/es-delete/$',api.PostEsDeleteView.as_view(), name='PostEsDeleteView'),
+
+    url(r'^api/user-add/$',api.PostUserAddView.as_view(), name='PostUserAddView'),
+    url(r'^api/alter/$',api.PostUserAlterView.as_view(), name='PostUserAlterView'),
+    url(r'^api/user-delete/$',api.PostUserDeleteView.as_view(), name='PostUserDeleteView'),
+    # url(r'^api/user-add/$',api.PostUserAddView.as_view(), name='PostUserAddView'),
+
 
 
 ]
