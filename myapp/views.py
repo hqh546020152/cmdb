@@ -5,6 +5,9 @@ from django.shortcuts import HttpResponse
 from myapp import models
 import time
 import json
+
+from rest_framework.views import APIView
+from django.http import JsonResponse
 # Create your views here.
 
 #检查用户的session是否过期，过期则让其重新登录
@@ -303,3 +306,51 @@ def ssh(request):
     # 传输給html的必须是一个字典
     context = {'messages': x.Get_data_all()}
     return render(request, "cmdb/index.html", context)
+
+#接口Dome
+#参考：https://www.jianshu.com/p/9064ffe0f720
+
+
+
+# class GetMessageView(APIView):
+#     # get 请求
+#     def get(self, request):
+#         # 获取参数数据
+#         a = request.GET.get('a','')
+#         b = request.GET.get('b','')
+#         print(a,b)
+#         if a :
+#         # 返回信息
+#             d = {
+#                 'status': 1,
+#                 'message': 'success',
+#                 }
+#             return JsonResponse(d)
+#         else:
+#             d = {
+#                 'status': 0,
+#                 'message': 'error',
+#             }
+#             return JsonResponse(d)
+
+
+# class GetLoginView(APIView):
+#     # get 请求
+#     def get(self, request):
+#         # 获取参数数据
+#         a = request.GET.get
+#         if a :
+#         # 返回信息
+#             d = {
+#                 'status': 1,
+#                 'message': 'success',
+#                 }
+#             return JsonResponse(d)
+#         else:
+#             d = {
+#                 'status': 0,
+#                 'message': 'error',
+#             }
+#             return JsonResponse(d)
+
+

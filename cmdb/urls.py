@@ -19,6 +19,7 @@ from django.conf.urls import url ,include
 
 #引入myapp应用的渲染
 from myapp import views
+from myapp import api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,5 +46,12 @@ urlpatterns = [
     url(r'^cmdb/user_add_delete/', views.user_add_delete, name='user_add_delete'),
 
     url(r'^cmdb/test/', views.test, name='test'),
+    # url(r'^test/$', views.GetMessageView.as_view(), name='GetMessageView'),
+
+
+    url(r'^test/$', api.GetMessageView.as_view(), name='GetMessageView'),
+    url(r'^login/$',api.GetLoginView.as_view(), name='GetLoginViewView'),
+    url(r'^cmdb/select/$',api.GetSelectView.as_view(), name='GetSelectView'),
+
 
 ]
