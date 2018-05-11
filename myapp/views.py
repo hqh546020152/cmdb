@@ -27,6 +27,7 @@ def logout(request):
         context = {'logout_messages':'请重新登录'}
     except KeyError:
         pass
+    context = {'logout_messages': '请重新登录'}
     return render(request, "login/login.html" , context)
 
 #注销功能，删除其session
@@ -56,9 +57,10 @@ def login_auth(request):
             # 判断用户输入的密码与数据库保存密码是否一致
             elif passwd == tty[0].passwd:
                 request.session['username'] = usrname
-                request.session.set_expiry(1800)
+                request.session.set_expiry(600)
                 x = models.Es()
                 #传输給html的必须是一个字典
+                # print(request.session.keys())
                 context = {'messages': x.Get_data_all()}
                 return render(request, "cmdb/index.html" , context)
             else:
@@ -74,6 +76,7 @@ def login_auth(request):
 def user_manage(request):
     try:
         if request.session['username']:
+            print(request.session['username'])
             return render(request, "cmdb/user.html")
         else:
             return render(request, "login/login.html")
@@ -183,13 +186,14 @@ def user_alter(request):
 
 
 def user_add(request):
-    try:
-        if request.session['username']:
-            return render(request, "cmdb/user_add.html")
-        else:
-            return render(request, "login/index.html")
-    except KeyError:
-        return render(request, "login/index.html")
+    return render(request, "cmdb/user_add.html")
+    # try:
+    #     if request.session['username']:
+    #         return render(request, "cmdb/user_add.html")
+    #     else:
+    #         return render(request, "login/index.html")
+    # except KeyError:
+    #     return render(request, "login/index.html")
 
 
 def user_add_get(request):
@@ -284,6 +288,12 @@ def data_search(request):
 def test(request):
     try:
         if request.session['username']:
+            #獲取前端傳來的sessionid
+            session_key = request.session.session_key
+            print(session_key)
+            print(request.session.keys())
+            print(type(request.session.keys()))
+
             return render(request, "cmdb/test.html")
         else:
             return render(request, "login/login.html")

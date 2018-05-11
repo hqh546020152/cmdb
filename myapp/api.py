@@ -6,26 +6,56 @@ import time
 from rest_framework.views import APIView
 from django.http import JsonResponse
 
+
 #status使用布尔表达，0为错误，非0值为正确。
 
 #测试API
 class GetTestView(APIView):
     # get 请求
     def get(self, request):
-        # 获取参数数据
-        a = request.GET.get('a','')
+        # try:
+        # # 获取参数数据
+        #     if request.session['username']:
+        #         a = request.GET.get('a','')
+        #         b = request.GET.get('b','')
+        #         print(a,b)
+        #         if a :
+        #         # 返回信息
+        #             d = {'status': 1,'message': 'success',}
+        #             return JsonResponse(d)
+        #         else:
+        #             d = {'status': 0,'message': 'error',}
+        #             return JsonResponse(d)
+        # except KeyError:
+        #     d = {'status': 0, 'message': '回話無效', }
+        #     return JsonResponse(d)
+        a = request.GET.get('a', '')
         b = request.GET.get('b','')
-        print(a,b)
-        if a :
-        # 返回信息
-            d = {'status': 1,'message': 'success',}
+        if a:
+            d = {'status': 1, 'message': 'success', }
             return JsonResponse(d)
         else:
-            d = {'status': 0,'message': 'error',}
+            d = {'status': 0, 'message': 'error', }
             return JsonResponse(d)
+    #
+    # try:
+    #     if request.session['username']:
+    #         return render(request, "cmdb/user_delete.html")
+    #     else:
+    #         return render(request, "login/login.html")
+    # except KeyError:
+    #     return render(request, "login/login.html")
+
+
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 #登录API
 class GetLoginView(APIView):
+    queryset = models.DUser.objects.all()
+    # serializer_class = UserSerializer
+    permission_classes = (AllowAny,)
     # get 请求
     def post(self, request):
         # 获取参数数据
@@ -33,7 +63,12 @@ class GetLoginView(APIView):
         # passwd = request.GET.t('passwd', '')
         usrname = request.POST.get('username', '')
         passwd = request.POST.get('passwd', '')
+        # received_json_data = json.loads(request.body)
+        # print(received_json_data)
+        # req = request.raw_post_data
+        # print(req)
 
+        print(usrname,passwd)
         x = models.Change_md5()
         x.setName(passwd)
         passwd = x.data
@@ -47,10 +82,13 @@ class GetLoginView(APIView):
         elif passwd == tty[0].passwd:
             request.session['username'] = usrname
             request.session.set_expiry(1800)
+            # print(request.session['username'])
+            # session_key = request.session.session_key
+            # print(session_key)
             context = {'status': 1, 'message': '登录成功'}
             return JsonResponse(context)
         else:
-            context = {'status': 0, 'message': '密码错误'}
+            context = {'status': 2, 'message': '密码错误'}
             return JsonResponse(context)
 
 #注销API
