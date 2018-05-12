@@ -15,12 +15,17 @@ if es.indices.exists(index='my-index') is not True:
 
 #获取所有数据，并加以解析打印出来
 res = es.search(index='my-index', doc_type='test', body={"query":{"match_all":{}}})
-# print(res)
+print(res)
 sumshu = []
 # cont = []
+total = res['hits']['total']
+print(total)
 for hit in res['hits']['hits']:
+    id_data = hit['_id']
+    print(id_data)
     ptk = hit['_source']
-    # print(ptk)
+    ptk['id'] = id_data
+    print(ptk)
     sumshu.append(ptk)
     # print(hit['_source'])
 
@@ -77,9 +82,9 @@ txt = 'logic1'
 # es.delete(index='my-index', doc_type='test',id = 1)
 # res2 = es.search(index='my-index',doc_type='test', body={"query":{"match_all":{}}})
 
-# #删除指定数据
-# txt1 = 'test'
-# qeury = {'query': {'match': {'tagname': txt1 }}}
+#删除指定数据
+# txt1 = '2018-05-12 00:42:58'
+# qeury = {'query': {'match': {'create_time': txt1 }}}
 # es.delete_by_query(index='my-index', doc_type='test',body = qeury)
 #
 # #闪

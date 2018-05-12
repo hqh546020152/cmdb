@@ -45,8 +45,13 @@ class GetLoginView(APIView):
             return JsonResponse(context)
         # 判断用户输入的密码与数据库保存密码是否一致
         elif passwd == tty[0].passwd:
+            print(usrname)
+
             request.session['username'] = usrname
             request.session.set_expiry(1800)
+            print(request.session['username'])
+            print(request.session.exists('usrname'))
+            # print(type(ttx))
             context = {'status': 1, 'message': '登录成功'}
             return JsonResponse(context)
         else:
@@ -72,7 +77,7 @@ class PostEsSelectView(APIView):
     def post(self, request):
         # 获取参数数据
         id = request.POST.get('id','')
-        print(id)
+        # print(id)
         if id :
             if id == "all":
                 x = models.Es()
@@ -114,6 +119,9 @@ class PostEsAddView(APIView):
             y = models.Es()
             tagname = request.POST.get('tagname', '')
             # 判断tagname是否已有，若有则不能添加
+            if not tagname:
+                context = {'status': 2, 'message': '名称不可为空'}
+                return JsonResponse(context)
             res = y.Get_data_tagname(index='my-index', type='test', tagname=tagname)
             if res == 'True':
                 context = {'status': 0,'message': '该名称已存在，不可重复添加'}
@@ -128,7 +136,7 @@ class PostEsAddView(APIView):
             create_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
             message = {'cpu': cpu, 'tagname': tagname, 'memory': memory, 'ip': ip, 'systemd_version': systemd_version,
                        'kernel_version': kernel_version, 'tag': tag, 'create_time': create_time, 'status': 0}
-            # print(message)
+            print(message)
             y.Create_data(index='my-index', type='test', body=message)
             context = {'status': 1, 'message': '添加成功'}
             return JsonResponse(context)
@@ -136,7 +144,61 @@ class PostEsAddView(APIView):
             context = {'status': 0, 'message': '添加失败，KeyError'}
             return JsonResponse(context)
 
-#Es数据删除接口，需要传入tagname，根据名称删除
+#Es数据更新接口,根据tagname
+class PostEsEditView(APIView):
+    def post(self, request):
+        y = models.Es()
+        tagname = request.POST.get('tagname', '')
+        # 判断tagname是否已有，若有则不能添加
+        if not tagname:
+            context = {'status': 2, 'message': '名称不可为空'}
+            return JsonResponse(context)
+        res = y.Get_data_tagname(index='my-index', type='test', tagname=tagname)
+        if res == 'True':
+            cpu = request.POST.get('cpu', '')
+            memory = request.POST.get('memory', '')
+            ip = request.POST.get('ip', '')
+            systemd_version = request.POST.get('systemd_version', '')
+            kernel_version = request.POST.get('kernel_version', '')
+            tag = request.POST.get('tag', '')
+            message = {'cpu': cpu, 'tagname': tagname, 'memory': memory, 'ip': ip,
+                       'systemd_version': systemd_version,
+                       'kernel_version': kernel_version, 'tag': tag}
+            print(message)
+            y.update_data_tagname(index='my-index', type='test', tagname=tagname, data=message)
+            context = {'status': 1,'message': '数据已更新！'}
+            return JsonResponse(context)
+
+#Es数据更新接口,根据id
+class PostEsEditidView(APIView):
+    def post(self, request):
+        y = models.Es()
+        id = request.POST.get('id', '')
+        print(id)
+        # 判断tagname是否已有，若有则不能添加
+        if id :
+            tagname = request.POST.get('tagname', '')
+            cpu = request.POST.get('cpu', '')
+            memory = request.POST.get('memory', '')
+            ip = request.POST.get('ip', '')
+            systemd_version = request.POST.get('systemd_version', '')
+            kernel_version = request.POST.get('kernel_version', '')
+            tag = request.POST.get('tag', '')
+            status = request.POST.get('status', '')
+            message = {'cpu': cpu, 'tagname': tagname, 'memory': memory, 'ip': ip,
+                       'systemd_version': systemd_version,
+                       'kernel_version': kernel_version, 'tag': tag , 'status': status }
+            print(id,message)
+            res = y.update_data(index='my-index', type='test',id=id , body=message)
+            print(res)
+            context = {'status': 1,'message': '数据更新成功！'}
+            return JsonResponse(context)
+        else:
+            context = {'status': 0, 'message': '数据更新失败！'}
+            return JsonResponse(context)
+
+
+#Es数据删除接口，需要传入tagname，根据tagname删除
 class PostEsDeleteView(APIView):
     def post(self, request):
         try:
@@ -155,7 +217,23 @@ class PostEsDeleteView(APIView):
             context = {'status': 0, 'message': '删除失败！', 'messages': tagname}
             return JsonResponse(context)
 
-
+#Es数据删除接口，需要传入id，根据id删除
+class PostEsRmidView(APIView):
+    def post(self, request):
+        try:
+            # 前端未接入，需要将数据的tagname传输过来，即可删除。目前写死
+            id = request.POST.get('id', '')
+            if id :
+                y = models.Es()
+                y.Rm_data(index='my-index', type='test', id=id)
+                context = {'status': 1,'message': '删除成功！', 'messages': id}
+                return JsonResponse(context)
+            else:
+                context = {'status': 0, 'message': '删除失败，未接收参数！', 'messages': id}
+                return JsonResponse(context)
+        except KeyError:
+            context = {'status': 0, 'message': '删除失败！', 'messages': id}
+            return JsonResponse(context)
 
 
 #用户增删查改接口
