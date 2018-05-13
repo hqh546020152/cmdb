@@ -14,19 +14,19 @@ if es.indices.exists(index='my-index') is not True:
 # print(a)
 
 #获取所有数据，并加以解析打印出来
-res = es.search(index='my-index', doc_type='test', body={"query":{"match_all":{}}})
-print(res)
-sumshu = []
-# cont = []
-total = res['hits']['total']
-print(total)
-for hit in res['hits']['hits']:
-    id_data = hit['_id']
-    print(id_data)
-    ptk = hit['_source']
-    ptk['id'] = id_data
-    print(ptk)
-    sumshu.append(ptk)
+# res = es.search(index='my-index', doc_type='test', body={"query":{"match_all":{}}})
+# print(res)
+# sumshu = []
+# # cont = []
+# total = res['hits']['total']
+# print(total)
+# for hit in res['hits']['hits']:
+#     id_data = hit['_id']
+#     print(id_data)
+#     ptk = hit['_source']
+#     ptk['id'] = id_data
+#     print(ptk)
+#     sumshu.append(ptk)
     # print(hit['_source'])
 
 # print(sumshu)
