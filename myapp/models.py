@@ -71,9 +71,13 @@ class Es():
         #     }
         # }
         # res = self.es.search(index='my-index', body= body )
+        #获取查询命中次数
+        total = res['hits']['total']
         sumshu = []
         for hit in res['hits']['hits']:
+            id_data = hit['_id']
             ptk = hit['_source']
+            ptk['id'] = id_data
             sumshu.append(ptk)
         return sumshu
     #删除索引下所有的数据
@@ -94,8 +98,17 @@ class Es():
             # '''
         return self.es.search(index=index, doc_type=type, body=body)
     #根据更新指定ID里的数据信息
-    def update_data(self, index, type, id, body=None):
+    # def update_data(self, index, type, id, body=None):
+    def update_data(self, index, type, id, body):
+        body = { "doc": body }
         return self.es.update(index=index, doc_type=type, id=id, body=body)
+    #根据更新，指定名称里的数据信息
+    def update_data_tagname(self,index, type, tagname, data):
+        qeury = {'query': {'match': {'tagname': tagname}},'script':{'params':{data}}}
+        return self.es.update_by_query(index=index, doc_type=type,body = qeury)
+    # def Rm_data_tagname(self,index, type, tagname):
+    #     qeury = {'query': {'match': {'tagname': tagname }}}
+    #     return self.es.delete_by_query(index=index, doc_type=type,body = qeury)
     #模糊搜索
     def search_all(self,index , type , reque , size=100 ):
         res = self.es.search(index = index , doc_type = type , q = reque , size = size)

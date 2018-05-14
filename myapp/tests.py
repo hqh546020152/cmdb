@@ -4,59 +4,42 @@ from elasticsearch import Elasticsearch
 import json
 import time
 import datetime
+from myapp import models
+
+
+
+#过滤查询用户输入的用户，返回类型列表
+usrname = "test"
+tty = models.DUser.objects.filter(user=(usrname))
+# tty = models.DUser.objects.all()
+print(tty)
+
+
 
 
 es = Elasticsearch(['hqh-study-python.com:9298'])
 if es.indices.exists(index='my-index') is not True:
     es.indices.create(index='my-index')
 
+
 # a = es.get(index='my-index', doc_type='test', id=2)
 # print(a)
 
 #获取所有数据，并加以解析打印出来
-res = es.search(index='my-index', doc_type='test', body={"query":{"match_all":{}}})
+# res = es.search(index='my-index', doc_type='test', body={"query":{"match_all":{}}})
 # print(res)
-sumshu = []
-# cont = []
-for hit in res['hits']['hits']:
-    ptk = hit['_source']
-    # print(ptk)
-    sumshu.append(ptk)
+# sumshu = []
+# # cont = []
+# total = res['hits']['total']
+# print(total)
+# for hit in res['hits']['hits']:
+#     id_data = hit['_id']
+#     print(id_data)
+#     ptk = hit['_source']
+#     ptk['id'] = id_data
+#     print(ptk)
+#     sumshu.append(ptk)
     # print(hit['_source'])
-
-# print(sumshu)
-# print(type(sumshu))
-a = sumshu[0].get('tag')
-
-
-test =  "docker"
-test1 = [["tagname" , "tag" , "memory", "systemd_version" , "kernel_version" , "cpu" , "ip" , "create_time" ] , "tag" , "memory", "systemd_version" , "kernel_version" , "cpu" , "ip" , "create_time" ]
-test2 = ["tagname"]
-body = {
-    "query":{
-        "multi_match":{
-            "query":test ,
-            "fields": test2
-        },
-
-    }
-}
-
-
-# message = {'cpu': cpu, 'tagname': tagname, 'memory': memory, 'ip': ip, 'systemd_version': systemd_version,
-#            'kernel_version': kernel_version, 'tag': tag, 'create_time': create_time, 'status': 0}
-
-print(body)
-res7 = es.search(index="my-index",doc_type="test",body=body)
-for hit in res7['hits']['hits']:
-    ptk = hit['_source']
-    # print(ptk)
-    sumshu.append(ptk)
-    # print(hit['_source'])
-
-print(sumshu)
-
-# print(a)
 
 #查询指定数据 => 查看详情单条数据
 txt = 'logic1'
@@ -68,18 +51,9 @@ txt = 'logic1'
 #     print('False')
 # res4 = json.dumps(res3)
 
-
-# print(res4)
-# print(res3['hits']['hits'])
-# print(res3['hits']['hits'][0]['_source'].get('memory'))
-# print(type(res3['hits']['hits'][0]['_source']))
-
-# es.delete(index='my-index', doc_type='test',id = 1)
-# res2 = es.search(index='my-index',doc_type='test', body={"query":{"match_all":{}}})
-
-# #删除指定数据
-# txt1 = 'test'
-# qeury = {'query': {'match': {'tagname': txt1 }}}
+#删除指定数据
+# txt1 = '2018-05-12 00:42:58'
+# qeury = {'query': {'match': {'create_time': txt1 }}}
 # es.delete_by_query(index='my-index', doc_type='test',body = qeury)
 #
 # #闪
@@ -143,11 +117,3 @@ class Es():
 # print(type(t))
 #
 # print(t.get('create_time'))
-
-#
-
-
-
-
-res_4 = es.search(index="my-index", doc_type='test', q="docker mysql", size=100)
-print(res_4["hits"]["hits"])

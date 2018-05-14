@@ -290,11 +290,11 @@ def test(request):
         if request.session['username']:
             #獲取前端傳來的sessionid
             session_key = request.session.session_key
-            print(session_key)
-            print(request.session.keys())
-            print(type(request.session.keys()))
-
-            return render(request, "cmdb/test.html")
+            # print(session_key)
+            # print(request.session.keys())
+            # print(type(request.session.keys()))
+            # return render(request, "cmdb/test.html")
+            return render(request, "cmdb/index.html")
         else:
             return render(request, "login/login.html")
     except KeyError:
@@ -319,48 +319,3 @@ def ssh(request):
 
 #接口Dome
 #参考：https://www.jianshu.com/p/9064ffe0f720
-
-
-
-# class GetMessageView(APIView):
-#     # get 请求
-#     def get(self, request):
-#         # 获取参数数据
-#         a = request.GET.get('a','')
-#         b = request.GET.get('b','')
-#         print(a,b)
-#         if a :
-#         # 返回信息
-#             d = {
-#                 'status': 1,
-#                 'message': 'success',
-#                 }
-#             return JsonResponse(d)
-#         else:
-#             d = {
-#                 'status': 0,
-#                 'message': 'error',
-#             }
-#             return JsonResponse(d)
-
-
-# class GetLoginView(APIView):
-#     # get 请求
-#     def get(self, request):
-#         # 获取参数数据
-#         a = request.GET.get
-#         if a :
-#         # 返回信息
-#             d = {
-#                 'status': 1,
-#                 'message': 'success',
-#                 }
-#             return JsonResponse(d)
-#         else:
-#             d = {
-#                 'status': 0,
-#                 'message': 'error',
-#             }
-#             return JsonResponse(d)
-
-

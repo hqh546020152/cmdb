@@ -56,10 +56,15 @@ urlpatterns = [
     url(r'^api/es-search/$',api.GetEsSearchView.as_view(), name='GetEsSearchView'),
     url(r'^api/es-add/$',api.PostEsAddView.as_view(), name='PostEsAddView'),
     url(r'^api/es-delete/$',api.PostEsDeleteView.as_view(), name='PostEsDeleteView'),
+    url(r'^api/es-delete-id/$',api.PostEsRmidView.as_view(), name='PostEsRmidView'),
+    url(r'^api/es-update/$',api.PostEsEditView.as_view(), name='PostEsEditView'),
+    url(r'^api/es-update-id/$',api.PostEsEditidView.as_view(), name='PostEsEditidView'),
 
     url(r'^api/user-add/$',api.PostUserAddView.as_view(), name='PostUserAddView'),
-    url(r'^api/alter/$',api.PostUserAlterView.as_view(), name='PostUserAlterView'),
+    url(r'^api/user-alter/$',api.PostUserAlterView.as_view(), name='PostUserAlterView'),
+    url(r'^api/user-alter-passwd/$',api.PostUserAlterPasswdView.as_view(), name='PostUserAlterPasswdView'),
     url(r'^api/user-delete/$',api.PostUserDeleteView.as_view(), name='PostUserDeleteView'),
+    url(r'^api/user-gain/$',api.PostUserGainView.as_view(), name='PostUserGainView'),
     # url(r'^api/user-add/$',api.PostUserAddView.as_view(), name='PostUserAddView'),
 
 
