@@ -119,8 +119,7 @@ class PostEsSelectView(APIView):
         if id :
             if id == "all":
                 x = models.Es()
-                context = {'status': 1,'messages': x.Get_data_all()}
-
+                context = {'status': 1,'messages': x.Get_data_all(index='my-index', type='test')}
                 return JsonResponse(context)
             else:
                 try:
@@ -315,11 +314,11 @@ class PostUserAddView(APIView):
             status = request.POST.get('status','0')
             permissions = request.POST.get('permissions','0')
 
-            print(username, passwd, status, permissions)
+            # print(username, passwd, status, permissions)
             # 添加数据
             models.DUser.objects.create(id='3', user=(username), passwd=(passwd), valid=(status), permission=(permissions))
-            obj = models.DUser(id='3', user=(username), passwd=(passwd), valid=(status), permission=(permissions))
-            obj.save()
+            # obj = models.DUser(id='3', user=(username), passwd=(passwd), valid=(status), permission=(permissions))
+            # obj.save()
             context = {'status': 1,'message': '添加成功！', 'messages': username}
             return JsonResponse(context)
 
@@ -334,7 +333,14 @@ class PostUserAlterView(APIView):
         passwd1 = request.POST.get('passwd1','')
         passwd2 = request.POST.get('passwd2','')
         status = request.POST.get('status', '0')
-        permissions = request.POST.get('permissions', '0')
+        permission = request.POST.get('permission', '0')
+        tty = models.DUser.objects.filter(user=(username))
+
+        #加密传输过来的原有密码，与数据库中信息做匹配
+        x = models.Change_md5()
+        x.setName(passwd)
+        passwdts = x.data
+
         print("test")
         if not username:
             context = {'status': 1, 'message': '用户名不许为空'}
@@ -346,18 +352,20 @@ class PostUserAlterView(APIView):
             if ( passwd == passwd1 ):
                 context = {'status': 3, 'message': '修改密码与原密码一致，修改失败！'}
                 return JsonResponse(context)
+            elif ( passwdts != tty[0].passwd ):
+                context = {'status': 4, 'message': '原密码不正确，修改失败！'}
+                return JsonResponse(context)
             else:
-                x = models.Change_md5()
                 x.setName(passwd1)
                 passwden = x.data
                 models.DUser.objects.filter(user=(username)).update(passwd=(passwden))
                 models.DUser.objects.filter(user=(username)).update(valid=(status))
-                models.DUser.objects.filter(user=(username)).update(paspermissionsswd=(permissions))
+                models.DUser.objects.filter(user=(username)).update(permission=(permission))
                 context = {'status': 0, 'message': '修改信息及密码成功！'}
                 return JsonResponse(context)
         else:
             models.DUser.objects.filter(user=(username)).update(valid=(status))
-            models.DUser.objects.filter(user=(username)).update(paspermissionsswd=(permissions))
+            models.DUser.objects.filter(user=(username)).update(permission=(permission))
             context = {'status': 0, 'message': '修改信息成功！'}
             return JsonResponse(context)
         # else:

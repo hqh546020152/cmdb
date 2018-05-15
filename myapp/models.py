@@ -34,12 +34,15 @@ class Es():
         # Elasticsearch(['xxx.xxx.xxx.xxx'],http_auth = ('elastic', 'passwd'),port = 9200)
         if self.es.indices.exists(index='my-index') is not True:
             self.es.indices.create(index='my-index')
+        if self.es.indices.exists(index='my-task') is not True:
+            self.es.indices.create(index='my-task')
     #新增数据函数
     def Create_data(self, index, type, body, id=None):
         return self.es.index(index=index, doc_type=type, body=body, id=id)
     #根据tagname查看是否已存在,返回True表示已存在，返回False表示不存在
     def Get_data_tagname(self,index, type, tagname):
-        body = {"query": {'term': {'tagname': tagname}}}
+        # body = {"query": {'term': {'tagname': tagname}}}
+        body = {"query": {'term': { tagname : tagname }}}
         res = self.es.search(index=index, doc_type=type, body=body )
         if res['hits']['hits']:
             # judge = 'True'
@@ -58,8 +61,9 @@ class Es():
     def Rm_data(self, index, type, id):
         return self.es.delete(index=index, doc_type=type, id=id)
     #查询所有数据函数
-    def Get_data_all(self):
-        res = self.es.search(index='my-index', body={"query": {"match_all": {}}})
+    def Get_data_all(self,index, type):
+        # res = self.es.search(index='my-index', body={"query": {"match_all": {}}})
+        res = self.es.search(index=index, doc_type=type, body={"query": {"match_all": {}}})
         # body = {
         #     "query": {
         #         "match_all": {}

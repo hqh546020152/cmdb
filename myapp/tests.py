@@ -7,19 +7,17 @@ import datetime
 from myapp import models
 
 
+y = models.Es()
+message = { 'tagname' : 'test','create_time': '2018-05-15 13:33:10', 'task': '123123', 'status': 'false'}
+y.Create_data(index='my-index', type='test', body=message)
 
-#过滤查询用户输入的用户，返回类型列表
-usrname = "test"
-tty = models.DUser.objects.filter(user=(usrname))
-# tty = models.DUser.objects.all()
-print(tty)
 
 
 
 
 es = Elasticsearch(['hqh-study-python.com:9298'])
-if es.indices.exists(index='my-index') is not True:
-    es.indices.create(index='my-index')
+# if es.indices.exists(index='my-index') is not True:
+#     es.indices.create(index='my-index')
 
 
 # a = es.get(index='my-index', doc_type='test', id=2)

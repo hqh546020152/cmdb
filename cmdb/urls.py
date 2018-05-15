@@ -20,6 +20,7 @@ from django.conf.urls import url ,include
 #引入myapp应用的渲染
 from myapp import views
 from myapp import api
+from myapp import api_task
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -49,9 +50,9 @@ urlpatterns = [
     # url(r'^test/$', views.GetMessageView.as_view(), name='GetMessageView'),
 
 
+
     url(r'^api/test/$', api.GetTestView.as_view(), name='GetMessageView'),
     url(r'^api/login/$',api.GetLoginView.as_view(), name='GetLoginViewView'),
-    #url(r'^api/logout/$',api.GetLogoutView.as_view(), name='GetLogoutView'),
     url(r'^api/es-select/$',api.PostEsSelectView.as_view(), name='PostEsSelectView'),
     url(r'^api/es-search/$',api.GetEsSearchView.as_view(), name='GetEsSearchView'),
     url(r'^api/es-add/$',api.PostEsAddView.as_view(), name='PostEsAddView'),
@@ -67,6 +68,9 @@ urlpatterns = [
     url(r'^api/user-gain/$',api.PostUserGainView.as_view(), name='PostUserGainView'),
     # url(r'^api/user-add/$',api.PostUserAddView.as_view(), name='PostUserAddView'),
 
-
+    # url(r'^api/es-task-add/$',api.PostTaskAddView.as_view(), name='PostTaskAddView'),
+    url(r'^api/es-task-add/$', api_task.PostTaskAddView.as_view(), name='PostTaskAddView'),
+    url(r'^api/es-task-select/$', api_task.PostTaskSelectView.as_view(), name='PostTaskSelectView'),
+    url(r'^api/es-task-delete-id/$', api_task.PostTaskRmidView.as_view(), name='PostTaskRmidView'),
 
 ]
