@@ -4,114 +4,137 @@ from elasticsearch import Elasticsearch
 import json
 import time
 import datetime
-from myapp import models
+# import paramiko
 
-
-y = models.Es()
-message = { 'tagname' : 'test','create_time': '2018-05-15 13:33:10', 'task': '123123', 'status': 'false'}
-y.Create_data(index='my-index', type='test', body=message)
-
-
-
-
+# # 接口标准格式
+# class PostZbSelectView(APIView):
+#     def post(self, request):
+#         try:
+#             if request.session['username']:
+#                 #逻辑处理
+#                 pass
+#             else:
+#                 context = {'status': 7, 'messages': '会话已失效，请重新登录!'}
+#                 return JsonResponse(context)
+#         except KeyError:
+#             context = {'status': 7, 'messages': '会话已失效，请重新登录!'}
+#             return JsonResponse(context)
 
 es = Elasticsearch(['hqh-study-python.com:9298'])
-# if es.indices.exists(index='my-index') is not True:
-#     es.indices.create(index='my-index')
+# index = "my-index"
+# type = "test"
+id ="AWO0CbGxQqGng7R8yuaJ"
+print(type(id))
+es.delete(index='my-script', type='script', id=id)
 
-
-# a = es.get(index='my-index', doc_type='test', id=2)
-# print(a)
-
-#获取所有数据，并加以解析打印出来
-# res = es.search(index='my-index', doc_type='test', body={"query":{"match_all":{}}})
-# print(res)
+# body = {"query": {'term': { "auth":"0" }}}
+# tty = es.search(index=index, doc_type=type, body=body)
 # sumshu = []
-# # cont = []
-# total = res['hits']['total']
-# print(total)
-# for hit in res['hits']['hits']:
-#     id_data = hit['_id']
-#     print(id_data)
+# for hit in tty['hits']['hits']:
 #     ptk = hit['_source']
-#     ptk['id'] = id_data
-#     print(ptk)
 #     sumshu.append(ptk)
-    # print(hit['_source'])
-
-#查询指定数据 => 查看详情单条数据
-txt = 'logic1'
-# res3 = es.search(index='my-index', doc_type='test', body={"query":{'term': {'tagname': txt}}})
-# res6 = res3['hits']['hits']
-# if res6:
-#     print('True')
-# else:
-#     print('False')
-# res4 = json.dumps(res3)
-
-#删除指定数据
-# txt1 = '2018-05-12 00:42:58'
-# qeury = {'query': {'match': {'create_time': txt1 }}}
-# es.delete_by_query(index='my-index', doc_type='test',body = qeury)
+# print(sumshu)
+import base64
+# from Crypto.Cipher import AES
+# from Crypto.Hash import SHA256
+# # from Crypto import Random
+# hash = SHA256.new()
+# hash.update('你好'.encode('utf-8'))
+# print(hash.digest())
+# print(hash.hexdigest())
 #
-# #闪
-# index=None
-# type=None
-# body=None
-# print(es.search(index=index, doc_type=type, body=body))
+# obj = AES.new('This is a key456',AES.MODE_ECB)
+# message = "The answer is no"
+# ciphertext = obj.encrypt(message)
+# print('AES加密密文：',ciphertext)
+#
+# obj2 = AES.new('This is a key456',AES.MODE_ECB)
+# detext=obj2.decrypt(ciphertext)
+# print('AES解密密文：',detext.decode())
+#
+# print("test")
+# try:
+#     if request.session['username']:
+#
+#     else:
+#         context = {'status': 7, 'messages': '会话已失效，请重新登录!'}
+#         return JsonResponse(context)
+# except KeyError:
+#     context = {'status': 7, 'messages': '会话已失效，请重新登录!'}
+#     return JsonResponse(context)
+
+# class SSH_passwd():
+#     def sshclient_execmd(self, hostname , port , username ,password, execmd ):
+#         paramiko.util.log_to_file("paramiko.log") #打印执行日志
+#         s = paramiko.SSHClient()      #调用paramiko模块下的SSHClient()
+#         s.load_system_host_keys()     #加载本地的known_hosts文件，该文件是纪录连到对方时，对方给的 host key。每次连线时都会检查目前对方给>的 host key 与纪录的 host key 是否相同，可以简单验证连结是否又被诈骗等相关事宜。
+#         s.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+#         s.connect( hostname = hostname, port=port, username=username, password=password)
+#         stdin, stdout, stderr = s.exec_command (execmd)
+#         stdin.write("Y") # Generally speaking, the first connection, need a simple interaction.
+#         A = stdout.read()   #执行成功，将返回执行结果。执行失败则为空
+#         B = stderr.read()   #执行失败，将返回错误信息。执行成功则为空
+#         s.close()     #关闭连接
+#         if A :
+#             # 将字节对象decode将获得一个str对象
+#             s2 = bytes.decode(A)
+#             return s2
+#         else:
+#             return B
+#     def put_file(self, local_path, remote_path, hostname, username, password, port=22):
+#         print(local_path, remote_path, hostname, username, password, port)
+#         t = paramiko.Transport(hostname, port)
+#         t.connect(username , password)
+#         sftp = paramiko.SFTPClient.from_transport(t)
+#         sftp.put(local_path, remote_path)
+#         ttt = t.close()
+#         return ttt
+
+
+# hostname = 'hqh-study-python.com'
+# port = 2222
+# username = 'admin'
+# password = '3XtgCvWliZJ7WdKJ1QrZ'
+# execmd = "cat /etc/redhat-release"
+# local_path = r'C:\Users\Administrator\Desktop\cmdb\myapp\detect.sh'
+# remote_path = r'/tmp/test.sh'
+# # print(type(hostname),type(port))
+# transport = paramiko.Transport((hostname,port))
+# transport.connect(username=username,password=password)
+# sftp = paramiko.SFTPClient.from_transport(transport)
+# sftp.put( local_path , remote_path )
+# tty =transport.close()
+# print(tty)
 
 
 
-# res1 = es.search(index="test-index", body={'query':{'match':{'cpu':'8'}}})
-# print(res1)
+# pty = SSH_passwd()
+# pushfile = pty.put_file( local_path= local_path , remote_path = remote_path , hostname = hostname , username=username , password=password , port =port )
+# print(pushfile)
+# ttt = pty.sshclient_execmd(hostname = hostname,port = port , username = username , password = password , execmd = execmd )
+# print(ttt)
 
+# 传输給html的必须是一个字典
+# context = {'messages': ttt}
+# return render(request, "cmdb/index.html", context)
 
+#pip3 install pycrypto
+import base64
+# from Crypto.Cipher import AES
+# from Crypto import Random
+# from Crypto.Hash import SHA256
 
-class Es():
-    readme = 'operation elasticsearch'
+class Compute():
+    readme = '加密解密'
     def __init__(self):
-        es = Elasticsearch(['hqh-study-python.com:9298'])
-        # Elasticsearch(['xxx.xxx.xxx.xxx'],http_auth = ('elastic', 'passwd'),port = 9200)
-        if es.indices.exists(index='my-index') is not True:
-                es.indices.create(index='my-index')
-    #新增数据函数
-    def Create_data(self,data):
-        es = Elasticsearch(['hqh-study-python.com:9298'])
-        #es.index(index='my-index', doc_type='test', body=data, refresh=True, id=3)
-        es.index(index='my-index', doc_type='test', body=data, refresh=True)
-    #查询指定数据函数
-    def Get_data(self,id):
-        # es = Elasticsearch(['hqh-study-python.com:9298'])
-        z = es.get(index='my-index', doc_type='test', id=id)
-        return z
-    #删除数据函数
-    def rm_data(self,id):
-        es = Elasticsearch(['hqh-study-python.com:9298'])
-        es.delete(index='my-index', doc_type='test', id=id)
-    #查询所有数据函数
-    def Get_data_all(self):
-        es = Elasticsearch(['hqh-study-python.com:9298'])
-        res = es.search(index='my-index', body={"query": {"match_all": {}}})
-        sumshu = []
-        for hit in res['hits']['hits']:
-            ptk = hit['_source']
-            sumshu.append(ptk)
-        return sumshu
-
-
-
-# x = Es()
-# y = x.Get_data(3)
-# k = y['_source']
-# print(k)
-#
-# # 编码数据,获得str类型
-# f = json.dumps(k)
-# print(f)
-# print(type(f))
-# # 解析json格式,解出来是一个字典
-# t = json.loads(f)
-# print(t)
-# print(type(t))
-#
-# print(t.get('create_time'))
+        pass
+    def Encode(self, data, key):
+        obj = AES.new( key , AES.MODE_ECB)
+        ciphertext = obj.encrypt(data)
+        print('AES加密密文：', ciphertext )
+        return ciphertext
+    def Decode(self, data, key):
+        obj = AES.new(key , AES.MODE_ECB)
+        detext = obj.decrypt(data)
+        print('AES解密密文：', detext.decode())
+        return detext.decode()

@@ -2,7 +2,7 @@ from django.db import models
 import hashlib
 #pip install elasticsearch
 from elasticsearch import Elasticsearch
-
+import paramiko
 import json
 
 #将数据转化为MD5
@@ -30,19 +30,24 @@ class Es():
     #参考https://github.com/YHYR/ElasticSearchUtils/blob/master/utils/elasticsearchUtil.py
     readme = 'operation elasticsearch'
     def __init__(self):
+
+        #配置连接Elasticsearch地址，如有密码则用下面一行，域名在服务器上hosts解析
         self.es = Elasticsearch(['hqh-study-python.com:9298'])
-        # Elasticsearch(['xxx.xxx.xxx.xxx'],http_auth = ('elastic', 'passwd'),port = 9200)
+
+        # self.es = Elasticsearch(['xxx.xxx.xxx.xxx'],http_auth = ('elastic', 'passwd'),port = 9200)
         if self.es.indices.exists(index='my-index') is not True:
             self.es.indices.create(index='my-index')
         if self.es.indices.exists(index='my-task') is not True:
             self.es.indices.create(index='my-task')
+        if self.es.indices.exists(index='my-task') is not True:
+            self.es.indices.create(index='my-script')
     #新增数据函数
     def Create_data(self, index, type, body, id=None):
         return self.es.index(index=index, doc_type=type, body=body, id=id)
     #根据tagname查看是否已存在,返回True表示已存在，返回False表示不存在
     def Get_data_tagname(self,index, type, tagname):
         # body = {"query": {'term': {'tagname': tagname}}}
-        body = {"query": {'term': { tagname : tagname }}}
+        body = {"query": {'term': { 'tagname' : tagname }}}
         res = self.es.search(index=index, doc_type=type, body=body )
         if res['hits']['hits']:
             # judge = 'True'
@@ -61,9 +66,9 @@ class Es():
     def Rm_data(self, index, type, id):
         return self.es.delete(index=index, doc_type=type, id=id)
     #查询所有数据函数
-    def Get_data_all(self,index, type):
+    def Get_data_all(self,index, type, body={"query": {"match_all": {}},"size":  1000 } ):
         # res = self.es.search(index='my-index', body={"query": {"match_all": {}}})
-        res = self.es.search(index=index, doc_type=type, body={"query": {"match_all": {}}})
+        res = self.es.search(index=index, doc_type=type, body=body )
         # body = {
         #     "query": {
         #         "match_all": {}
@@ -132,6 +137,7 @@ class Es():
 
 
 class SSH_passwd():
+    readme = 'ssh'
     def sshclient_execmd(self, hostname , port , username ,password, execmd ):
         paramiko.util.log_to_file("paramiko.log") #打印执行日志
         s = paramiko.SSHClient()      #调用paramiko模块下的SSHClient()
@@ -144,8 +150,17 @@ class SSH_passwd():
         B = stderr.read()   #执行失败，将返回错误信息。执行成功则为空
         s.close()     #关闭连接
         if A :
-            return A
+            # 将字节对象decode将获得一个str对象
+            s2 = bytes.decode(A)
+            return s2
         else:
             return B
 
-
+    def put_file(self, hostname , port , username ,password, local_path , remote_path ):
+        print(hostname, port, username, password,local_path,remote_path,"modex")
+        transport = paramiko.Transport((hostname,int(port)))
+        transport.connect(username=username, password=password)
+        sftp = paramiko.SFTPClient.from_transport(transport)
+        sftp.put(local_path, remote_path)
+        tty = transport.close()
+        return tty

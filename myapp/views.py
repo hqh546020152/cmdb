@@ -61,7 +61,9 @@ def login_auth(request):
                 x = models.Es()
                 #传输給html的必须是一个字典
                 # print(request.session.keys())
-                context = {'messages': x.Get_data_all()}
+                # print(x.Get_data_all())
+                # context = {'messages': x.Get_data_all(index="my-index", type="test")}
+                context = { 'messages' : 'test'}
                 return render(request, "cmdb/index.html" , context)
             else:
                 print('密码错误')
